@@ -533,7 +533,7 @@ namespace Jackett.Server.Controllers
                 var link = result.Link;
                 var file = StringUtil.MakeValidFileName(result.Title, '_', false);
                 result.Link = serverService.ConvertToProxyLink(link, serverUrl, result.TrackerId, "dl", file);
-                if (!string.IsNullOrWhiteSpace(serverConfig.BlackholeDir))
+                if (!string.IsNullOrWhiteSpace(serverConfig.BTSaveDir))
                 {
                     if (result.Link != null)
                         result.BlackholeLink = serverService.ConvertToProxyLink(link, serverUrl, result.TrackerId, "bh", file);

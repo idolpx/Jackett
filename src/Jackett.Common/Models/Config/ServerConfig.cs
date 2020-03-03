@@ -22,7 +22,8 @@ namespace Jackett.Common.Models.Config
         public string APIKey { get; set; }
         public string AdminPassword { get; set; }
         public string InstanceId { get; set; }
-        public string BlackholeDir { get; set; }
+        public string BTAddMethod { get; set; }
+        public string BTSaveDir { get; set; }
         public bool UpdateDisabled { get; set; }
         public bool UpdatePrerelease { get; set; }
         public string BasePathOverride { get; set; }

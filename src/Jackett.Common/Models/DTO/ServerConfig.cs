@@ -16,7 +16,9 @@ namespace Jackett.Common.Models.DTO
         [DataMember]
         public string api_key { get; set; }
         [DataMember]
-        public string blackholedir { get; set; }
+        public string btaddmethod { get; set; }
+        [DataMember]
+        public string btsavedir { get; set; }
         [DataMember]
         public bool updatedisabled { get; set; }
         [DataMember]
@@ -52,25 +54,32 @@ namespace Jackett.Common.Models.DTO
         public ServerConfig(IEnumerable<string> notices, Models.Config.ServerConfig config, string version, bool canRunNetCore)
         {
             this.notices = notices;
+            app_version = version;
+            can_run_netcore = canRunNetCore;  
+            api_key = config.APIKey;   
+
+            password = string.IsNullOrEmpty(config.AdminPassword) ? string.Empty : config.AdminPassword.Substring(0, 10);
             port = config.Port;
             external = config.AllowExternal;
-            api_key = config.APIKey;
-            blackholedir = config.BlackholeDir;
+            
+
             updatedisabled = config.UpdateDisabled;
             prerelease = config.UpdatePrerelease;
-            password = string.IsNullOrEmpty(config.AdminPassword) ? string.Empty : config.AdminPassword.Substring(0, 10);
+
             logging = config.RuntimeSettings.TracingEnabled;
             basepathoverride = config.BasePathOverride;
-            omdbkey = config.OmdbApiKey;
-            omdburl = config.OmdbApiUrl;
-            app_version = version;
-            can_run_netcore = canRunNetCore;
+
+            btaddmethod = config.BTAddMethod;
+            btsavedir = config.BTSaveDir;
 
             proxy_type = config.ProxyType;
             proxy_url = config.ProxyUrl;
             proxy_port = config.ProxyPort;
             proxy_username = config.ProxyUsername;
             proxy_password = config.ProxyPassword;
+
+            omdbkey = config.OmdbApiKey;
+            omdburl = config.OmdbApiUrl;           
         }
     }
 }

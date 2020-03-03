@@ -385,7 +385,7 @@ namespace Jackett.Server.Services
             return serverUrl;
         }
 
-        public string GetBlackholeDirectory() => config.BlackholeDir;
+        public string GetBlackholeDirectory() => config.BTSaveDir;
 
         public string GetApiKey() => config.APIKey;
 

@@ -73,36 +73,193 @@
                 <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span> Test All
             </button>
         </div>
-        <h3>Configured Indexers</h3>
+        <h3>Indexers</h3>
         <div id="indexers"> </div>
         <hr />
 
-        <div class="input-area">
-            <h4>Adding a Jackett indexer in Sonarr or Radarr</h4>
-            <ol>
-                <li>Go to <b>Settings > Indexers > Add > Torznab > Custom</b>.</li>
-                <li>Click on the indexers corresponding <button type="button" class="btn btn-xs btn-info">Copy Torznab Feed</button> button and paste it into the Sonarr/Radarr <b>URL</b> field.</li>
-                <li>For the <b>API key</b> use <b class="api-key-text"></b>.</li>
-                <li>Configure the correct category IDs via the <b>(Anime) Categories</b> options. See the Jackett indexer configuration for a list of supported categories.</li>
-            </ol>
-            <h4>Adding a Jackett indexer in CouchPotato</h4>
-            <ol>
-                <li>Go to <b>Settings > Searchers</b>.</li>
-                <li>Enable <b>TorrentPotato</b>.
-                <li>Click on the indexers corresponding <button type="button" class="btn btn-xs btn-info">Copy Potato Feed</button> button and paste it into the CouchPotato <b>host</b> field.</li>
-                <li>For the <b>Passkey</b> use <b class="api-key-text"></b>. Leave the <b>username</b> field blank.</li>
-            </ol>
-            <h4>Adding a Jackett indexer to RSS clients (RSS feed)</h4>
-            <ol>
-                <li>Click on the indexers corresponding <button type="button" class="btn btn-xs btn-info">Copy RSS Feed</button> button and paste it into the URL field of the RSS client.</li>
-                <li>
-                    You can adjust the <b>q</b> (search string) and <b>cat</b> (categories) arguments accordingly.
-                    E.g. <b>...&cat=2030,2040&q=big+buck+bunny</b> will search for "big buck bunny" in the Movies/SD (2030) and Movies/HD (2040) categories (See the indexer configuration for available categories).
-                </li>
-            </ol>
+        <h3>Configuration</h3>
+
+        <ul class="nav nav-tabs nav-justified">
+            <li class="active"><a data-toggle="tab" href="#info">Info</a></li>
+            <li><a data-toggle="tab" href="#settings">Settings</a></li>
+            <li><a data-toggle="tab" href="#btclient">BitTorrent Client</a></li>
+            <li><a data-toggle="tab" href="#proxy">Proxy</a></li>
+            <li><a data-toggle="tab" href="#omdb">OMDb</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="info" class="tab-pane fade in active">
+                <br />
+                <div class="input-area">
+                    <h4>Adding a Jackett indexer in Sonarr or Radarr</h4>
+                    <ol>
+                        <li>Go to <b>Settings > Indexers > Add > Torznab > Custom</b>.</li>
+                        <li>Click on the indexers corresponding <button type="button" class="btn btn-xs btn-info">Copy Torznab Feed</button> button and paste it into the Sonarr/Radarr <b>URL</b> field.</li>
+                        <li>For the <b>API key</b> use <b class="api-key-text"></b>.</li>
+                        <li>Configure the correct category IDs via the <b>(Anime) Categories</b> options. See the Jackett indexer configuration for a list of supported categories.</li>
+                    </ol>
+                    <h4>Adding a Jackett indexer in CouchPotato</h4>
+                    <ol>
+                        <li>Go to <b>Settings > Searchers</b>.</li>
+                        <li>Enable <b>TorrentPotato</b>.
+                        <li>Click on the indexers corresponding <button type="button" class="btn btn-xs btn-info">Copy Potato Feed</button> button and paste it into the CouchPotato <b>host</b> field.</li>
+                        <li>For the <b>Passkey</b> use <b class="api-key-text"></b>. Leave the <b>username</b> field blank.</li>
+                    </ol>
+                    <h4>Adding a Jackett indexer to RSS clients (RSS feed)</h4>
+                    <ol>
+                        <li>Click on the indexers corresponding <button type="button" class="btn btn-xs btn-info">Copy RSS Feed</button> button and paste it into the URL field of the RSS client.</li>
+                        <li>
+                            You can adjust the <b>q</b> (search string) and <b>cat</b> (categories) arguments accordingly.
+                            E.g. <b>...&cat=2030,2040&q=big+buck+bunny</b> will search for "big buck bunny" in the Movies/SD (2030) and Movies/HD (2040) categories (See the indexer configuration for available categories).
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="settings" class="tab-pane fade in">
+                <br />
+                <div class="input-area">
+                    <span class="input-header">Admin password: </span>
+                    <input id="jackett-adminpwd" class="form-control input-right" type="password" value="" placeholder="Blank to disable" />
+                    <button id="change-jackett-password" class="btn btn-primary btn-sm">
+                        <i class="fa fa-user-secret"></i>  Set Password <span class="glyphicon glyphicon-ok-wrench" aria-hidden="true"></span>
+                    </button>
+                    <a href="Dashboard?logout=true" id="logoutBtn" style="display:none" class="btn btn-danger btn-sm">
+                        Logout
+                    </a>
+                </div>
+                <div class="input-area">
+                    <span class="input-header">Base Path Override: </span>
+                    <input id="jackett-basepathoverride" class="form-control input-right" type="text" value="" placeholder="/jackett">
+                </div>
+                <div class="input-area">
+                    <span class="input-header">Server port: </span>
+                    <input id="jackett-port" class="form-control input-right" type="text" value="" placeholder="9117">
+                </div>
+                <div class="input-area">
+                    <span class="input-header">External access: </span>
+                    <input id="jackett-allowext" class="form-control input-right" type="checkbox" />
+                </div>
+                <div class="input-area">
+                    <span class="input-header">Disable auto update: </span>
+                    <input id="jackett-allowupdate" class="form-control input-right" type="checkbox" />
+
+                </div>
+                <div class="input-area">
+                    <span class="input-header">Update to pre-release: </span>
+                    <input id="jackett-prerelease" class="form-control input-right" type="checkbox" />
+
+                </div>
+                <div class="input-area">
+                    <span class="input-header">Enhanced logging: </span>
+                    <input id="jackett-logging" class="form-control input-right" type="checkbox" />
+                </div>
+            </div>
+            <div id="btclient" class="tab-pane fade">
+                <br />
+                <div class="input-area">
+                    <span class="input-header">Add Method: </span>
+                    <select id="jackett-btaddmethod"  class="form-control input-right">
+                        <option value="blackhole" selected>*Blackhole Directory*</option>
+                        <option value="biglybt">BiglyBT</option>
+                        <option value="cloudtorrent">Cloud Torrent</option>
+                        <option value="delugewebui">Deluge Web UI</option>
+                        <option value="flood">Flood</option>
+                        <option value="rutorrent">ruTorrent</option>
+                        <option value="tixati">Tixati</option>
+                        <option value="transmission">Transmission</option>
+                        <option value="utorrent">uTorrent</option>
+                        <option value="vuzewebremote">Vuze Web Remote</option>
+                        <option value="vuzehtmlwebui">Vuze HTML Web UI</option>
+                        <option value="vuzehtmlwebuio">Vuze HTML Web UI (&lt;1.0.0)</option>
+                        <option value="qbittorrent">qBittorrent</option>
+                        <option value="qbittorrento">qBittorrent (&lt;=4.0.4)</option>
+                    </select>
+                </div>
+
+                <div id="btblackhole">
+                    <div class="input-area">
+                        <span class="input-header">Manual download blackhole directory: </span>
+                        <input id="jackett-btsavedir" class="form-control input-right" type="text" value="" placeholder="c:\torrents\">
+                    </div>                   
+                </div> 
+
+                <div id="btapplication" hidden>
+                    <div class="input-area">
+                        <span class="input-header">Web UI Address: </span>
+                        <input id="jackett-btwebui" class="form-control input-right" type="text" value="" placeholder="http://localhost:9091">
+                    </div>
+
+                    <div class="input-area">
+                        <span class="input-header">Username: </span>
+                        <input id="jackett-btusername" class="form-control input-right" type="text" value="" placeholder="">
+                    </div>
+
+                    <div class="input-area">
+                        <span class="input-header">Password: </span>
+                        <input id="jackett-btpassword" class="form-control input-right" type="text" value="" placeholder="">
+                    </div>
+
+                    <div class="input-area">
+                        <span class="input-header">Directories: </span>
+                        <textarea id="jackett-directories" class="form-control" rows="6">
+/apps
+/books
+/games
+/music
+/movies
+/tv
+                        </textarea>
+                    </div>                    
+                </div>
+            </div>
+            <div id="proxy" class="tab-pane fade">
+                <br />
+                <div class="input-area">
+                    <span class="input-header">Proxy type: </span>
+                    <select id="jackett-proxy-type" class="form-control input-right">
+                        <option value="0">http</option>
+                        <option value="1">socks4</option>
+                        <option value="2">socks5</option>
+                    </select>
+                </div>
+                <div id="proxy-warning" hidden>
+                    <span>
+                        WARNING: The proxy option potentially leaks requests. Recommendation is to use a VPN.
+                    </span>
+                </div>
+                <div class="input-area">
+                    <span class="input-header">Proxy url: </span>
+                    <input id="jackett-proxy-url" class="form-control input-right" type="text" value="" placeholder="Blank to disable">
+                </div>
+                <div class="input-area">
+                    <span class="input-header">Proxy port: </span>
+                    <input id="jackett-proxy-port" class="form-control input-right" type="text" value="" placeholder="">
+                </div>
+                <div class="input-area">
+                    <span class="input-header">Proxy username: </span>
+                    <input id="jackett-proxy-username" class="form-control input-right" type="text" value="" placeholder="">
+                </div>
+                <div class="input-area">
+                    <span class="input-header">Proxy password: </span>
+                    <input id="jackett-proxy-password" class="form-control input-right" type="password" value="" placeholder="">
+                </div>
+            </div>
+            <div id="omdb" class="tab-pane fade">
+                <br />
+                <span>
+                    This feature is used as a fallback (when using the aggregate Indexer) to get the movie/series title if only the IMDB ID is provided in the request. To use it, please just request a free API key on OMDb (1,000 daily requests limit).
+                </span>
+                <div class="input-area">
+                    <span class="input-header"><a target="_blank" href="http://www.omdbapi.com/apikey.aspx">OMDb</a> API key: </span>
+                    <input id="jackett-omdbkey" class="form-control input-right" type="text" value="" placeholder="">
+                </div>
+                <div class="input-area">
+                    <span class="input-header"><a target="_blank" href="http://www.omdbapi.com/apikey.aspx">OMDb</a> API Url: </span>
+                    <input id="jackett-omdburl" class="form-control input-right" type="text" value="" placeholder="Blank for default">
+                </div>
+            </div>
         </div>
         <hr />
-        <h3>Jackett Configuration</h3>
         <div class="text-center">
             <div class="btn-toolbar">
                 <button id="change-jackett-port" class="btn btn-primary btn-sm">
@@ -116,87 +273,6 @@
                 </button>
             </div>
         </div>
-        <br />
-        <div class="input-area">
-            <span class="input-header">Admin password: </span>
-            <input id="jackett-adminpwd" class="form-control input-right" type="password" value="" placeholder="Blank to disable" />
-            <button id="change-jackett-password" class="btn btn-primary btn-sm">
-                <i class="fa fa-user-secret"></i>  Set Password <span class="glyphicon glyphicon-ok-wrench" aria-hidden="true"></span>
-            </button>
-            <a href="Dashboard?logout=true" id="logoutBtn" style="display:none" class="btn btn-danger btn-sm">
-                Logout
-            </a>
-        </div>
-        <div class="input-area">
-            <span class="input-header">Base Path Override: </span>
-            <input id="jackett-basepathoverride" class="form-control input-right" type="text" value="" placeholder="/jackett">
-        </div>
-        <div class="input-area">
-            <span class="input-header">Server port: </span>
-            <input id="jackett-port" class="form-control input-right" type="text" value="" placeholder="9117">
-        </div>
-        <div class="input-area">
-            <span class="input-header">Manual download blackhole directory: </span>
-            <input id="jackett-savedir" class="form-control input-right" type="text" value="" placeholder="c:\torrents\">
-        </div>
-
-        <div class="input-area">
-            <span class="input-header">Proxy type: </span>
-            <select id="jackett-proxy-type" class="form-control input-right">
-                <option value="0">http</option>
-                <option value="1">socks4</option>
-                <option value="2">socks5</option>
-            </select>
-        </div>
-        <div id="proxy-warning" hidden>
-            <span>
-                WARNING: The proxy option potentially leaks requests. Recommendation is to use a VPN.
-            </span>
-        </div>
-        <div class="input-area">
-            <span class="input-header">Proxy url: </span>
-            <input id="jackett-proxy-url" class="form-control input-right" type="text" value="" placeholder="Blank to disable">
-        </div>
-        <div class="input-area">
-            <span class="input-header">Proxy port: </span>
-            <input id="jackett-proxy-port" class="form-control input-right" type="text" value="" placeholder="">
-        </div>
-        <div class="input-area">
-            <span class="input-header">Proxy username: </span>
-            <input id="jackett-proxy-username" class="form-control input-right" type="text" value="" placeholder="">
-        </div>
-        <div class="input-area">
-            <span class="input-header">Proxy password: </span>
-            <input id="jackett-proxy-password" class="form-control input-right" type="password" value="" placeholder="">
-        </div>
-
-        <div class="input-area">
-            <span class="input-header">External access: </span>
-            <input id="jackett-allowext" class="form-control input-right" type="checkbox" />
-        </div>
-        <div class="input-area">
-            <span class="input-header">Disable auto update: </span>
-            <input id="jackett-allowupdate" class="form-control input-right" type="checkbox" />
-
-        </div>
-        <div class="input-area">
-            <span class="input-header">Update to pre-release: </span>
-            <input id="jackett-prerelease" class="form-control input-right" type="checkbox" />
-
-        </div>
-        <div class="input-area">
-            <span class="input-header">Enhanced logging: </span>
-            <input id="jackett-logging" class="form-control input-right" type="checkbox" />
-        </div>
-        <div class="input-area">
-            <span class="input-header">OMDB API key: </span>
-            <input id="jackett-omdbkey" class="form-control input-right" type="text" value="" placeholder="">
-        </div>
-        <div class="input-area">
-            <span class="input-header">OMDB API Url: </span>
-            <input id="jackett-omdburl" class="form-control input-right" type="text" value="" placeholder="Blank for default">
-        </div>
-        <hr />
         <div id="footer">
             <a href="https://github.com/Jackett/Jackett" target="_blank" title="Jackett on GitHub">Jackett</a> Version <span id="app-version"></span>
         </div>

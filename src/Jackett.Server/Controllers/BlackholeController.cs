@@ -72,14 +72,14 @@ namespace Jackett.Server.Controllers
                     fileExtension = ".magnet";
                 }
 
-                if (string.IsNullOrWhiteSpace(serverConfig.BlackholeDir))
+                if (string.IsNullOrWhiteSpace(serverConfig.BTSaveDir))
                 {
                     throw new Exception("Blackhole directory not set!");
                 }
 
-                if (!Directory.Exists(serverConfig.BlackholeDir))
+                if (!Directory.Exists(serverConfig.BTSaveDir))
                 {
-                    throw new Exception("Blackhole directory does not exist: " + serverConfig.BlackholeDir);
+                    throw new Exception("Blackhole directory does not exist: " + serverConfig.BTSaveDir);
                 }
 
                 var fileName = DateTime.Now.Ticks.ToString() + "-" + StringUtil.MakeValidFileName(indexer.DisplayName, '_', false);
@@ -88,7 +88,7 @@ namespace Jackett.Server.Controllers
                 else
                     fileName += "-" + StringUtil.MakeValidFileName(file + fileExtension, '_', false); // call MakeValidFileName() again to avoid any possibility of path traversal attacks
 
-                System.IO.File.WriteAllBytes(Path.Combine(serverConfig.BlackholeDir, fileName), downloadBytes);
+                System.IO.File.WriteAllBytes(Path.Combine(serverConfig.BTSaveDir, fileName), downloadBytes);
                 jsonReply["result"] = "success";
             }
             catch (Exception ex)

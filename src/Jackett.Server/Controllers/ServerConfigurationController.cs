@@ -71,14 +71,7 @@ namespace Jackett.Server.Controllers
         {
             var webHostRestartNeeded = false;
 
-            var originalPort = serverConfig.Port;
-            var originalAllowExternal = serverConfig.AllowExternal;
-            var port = config.port;
-            var external = config.external;
-            var saveDir = config.blackholedir;
-            var updateDisabled = config.updatedisabled;
-            var preRelease = config.prerelease;
-            var logging = config.logging;
+
             var basePathOverride = config.basepathoverride;
             if (basePathOverride != null)
             {
@@ -86,6 +79,17 @@ namespace Jackett.Server.Controllers
                 if (!string.IsNullOrWhiteSpace(basePathOverride) && !basePathOverride.StartsWith("/"))
                     throw new Exception("The Base Path Override must start with a /");
             }
+            var originalPort = serverConfig.Port;
+            var originalAllowExternal = serverConfig.AllowExternal;
+            var port = config.port;
+            var external = config.external;
+            var updateDisabled = config.updatedisabled;
+            var preRelease = config.prerelease;
+            var logging = config.logging;
+
+
+            var BTAddMethod = config.btaddmethod;
+            var BTSaveDir = config.btsavedir;
 
             var omdbApiKey = config.omdbkey;
             var omdbApiUrl = config.omdburl;
@@ -172,17 +176,23 @@ namespace Jackett.Server.Controllers
                 webHostRestartNeeded = true;
             }
 
-            if (saveDir != serverConfig.BlackholeDir)
+            if (BTAddMethod != serverConfig.BTAddMethod)
             {
-                if (!string.IsNullOrEmpty(saveDir))
+                serverConfig.BTAddMethod = BTAddMethod;
+                configService.SaveConfig(serverConfig);
+            }
+
+            if (BTSaveDir != serverConfig.BTSaveDir)
+            {
+                if (!string.IsNullOrEmpty(BTSaveDir))
                 {
-                    if (!Directory.Exists(saveDir))
+                    if (!Directory.Exists(BTSaveDir))
                     {
                         throw new Exception("Blackhole directory does not exist");
                     }
                 }
 
-                serverConfig.BlackholeDir = saveDir;
+                serverConfig.BTSaveDir = BTSaveDir;
                 configService.SaveConfig(serverConfig);
             }
 

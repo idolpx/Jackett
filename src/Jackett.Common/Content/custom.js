@@ -75,10 +75,35 @@ function getJackettConfig(callback) {
 
 function loadJackettSettings() {
     getJackettConfig(function (data) {
+
+        //api.key = data.api_key;
+
         $("#api-key-input").val(data.api_key);
         $(".api-key-text").text(data.api_key);
         $("#app-version").html(data.app_version);
+
+
+        var password = data.password;
+        $("#jackett-adminpwd").val(password);
+        if (password != null && password != '') {
+            $("#logoutBtn").show();
+        }            
+        $("#jackett-basepathoverride").val(data.basepathoverride);
+        basePath = data.basepathoverride;
+        if (basePath === null || basePath === undefined) {
+            basePath = '';
+        }
+
         $("#jackett-port").val(data.port);
+        $("#jackett-allowext").attr('checked', data.external);
+        $("#jackett-allowupdate").attr('checked', data.updatedisabled);
+        $("#jackett-prerelease").attr('checked', data.prerelease);
+        $("#jackett-logging").attr('checked', data.logging);        
+
+
+        $("#jackett-btaddmethod").val(data.btaddmethod);
+        $("#jackett-btsavedir").val(data.btsavedir);
+
 
         $("#jackett-proxy-type").val(data.proxy_type);
         $("#jackett-proxy-url").val(data.proxy_url);
@@ -86,26 +111,10 @@ function loadJackettSettings() {
         $("#jackett-proxy-username").val(data.proxy_username);
         $("#jackett-proxy-password").val(data.proxy_password);
 
-        $("#jackett-basepathoverride").val(data.basepathoverride);
-        basePath = data.basepathoverride;
-        if (basePath === null || basePath === undefined) {
-            basePath = '';
-        }
 
-        api.key = data.api_key;
-
-        $("#jackett-savedir").val(data.blackholedir);
-        $("#jackett-allowext").attr('checked', data.external);
-        $("#jackett-allowupdate").attr('checked', data.updatedisabled);
-        $("#jackett-prerelease").attr('checked', data.prerelease);
-        $("#jackett-logging").attr('checked', data.logging);
         $("#jackett-omdbkey").val(data.omdbkey);
         $("#jackett-omdburl").val(data.omdburl);
-        var password = data.password;
-        $("#jackett-adminpwd").val(password);
-        if (password != null && password != '') {
-            $("#logoutBtn").show();
-        }
+
 
         if (data.can_run_netcore != null && data.can_run_netcore === true) {
             $("#can-upgrade-from-mono").show();
@@ -117,6 +126,7 @@ function loadJackettSettings() {
         })
 
         reloadIndexers();
+        addMethod(data.btaddmethod);
         proxyWarning(data.proxy_url);
     });
 }
@@ -1174,36 +1184,45 @@ function bindUIButtons() {
     });
 
     $("#change-jackett-port").click(function () {
-        var jackett_port = Number($("#jackett-port").val());
         var jackett_basepathoverride = $("#jackett-basepathoverride").val();
+        var jackett_port = Number($("#jackett-port").val());
+        
         var jackett_external = $("#jackett-allowext").is(':checked');
         var jackett_update = $("#jackett-allowupdate").is(':checked');
         var jackett_prerelease = $("#jackett-prerelease").is(':checked');
         var jackett_logging = $("#jackett-logging").is(':checked');
-        var jackett_omdb_key = $("#jackett-omdbkey").val();
-        var jackett_omdb_url = $("#jackett-omdburl").val();
 
-        var jackett_proxy_url = $("#jackett-proxy-url").val();
+        var jackett_btaddmethod = $("#jackett-btaddmethod").val();
+        var jackett_btsavedir = $("#jackett-btsavedir").val();
+
         var jackett_proxy_type = $("#jackett-proxy-type").val();
+        var jackett_proxy_url = $("#jackett-proxy-url").val();
         var jackett_proxy_port = $("#jackett-proxy-port").val();
         var jackett_proxy_username = $("#jackett-proxy-username").val();
         var jackett_proxy_password = $("#jackett-proxy-password").val();
 
+        var jackett_omdb_key = $("#jackett-omdbkey").val();
+        var jackett_omdb_url = $("#jackett-omdburl").val();        
+
         var jsonObject = {
+            basepathoverride: jackett_basepathoverride,
             port: jackett_port,
             external: jackett_external,
             updatedisabled: jackett_update,
             prerelease: jackett_prerelease,
-            blackholedir: $("#jackett-savedir").val(),
             logging: jackett_logging,
-            basepathoverride: jackett_basepathoverride,
-            omdbkey: jackett_omdb_key,
-            omdburl: jackett_omdb_url,
+
+            btaddmethod: jackett_btaddmethod,
+            btsavedir: jackett_btsavedir,
+
             proxy_type: jackett_proxy_type,
             proxy_url: jackett_proxy_url,
             proxy_port: jackett_proxy_port,
             proxy_username: jackett_proxy_username,
-            proxy_password: jackett_proxy_password
+            proxy_password: jackett_proxy_password,
+
+            omdbkey: jackett_omdb_key,
+            omdburl: jackett_omdb_url
         };
         api.updateServerConfig(jsonObject, function (data) {
             doNotify("Redirecting you to complete configuration update..", "success", "glyphicon glyphicon-ok");
@@ -1252,9 +1271,26 @@ function bindUIButtons() {
         });
     });
 
+    $('#jackett-btaddmethod').on('input', function () {
+        addMethod($(this).val());
+    });
+
     $('#jackett-proxy-url').on('input', function () {
         proxyWarning($(this).val());
     });
+}
+
+
+function addMethod(input) {
+    if (input = null || input.trim() == "blackhole") {
+        $('#btblackhole').show();
+        $('#btapplication').hide();
+    }
+    else
+    {
+        $('#btblackhole').hide();
+        $('#btapplication').show();
+    }
 }
 
 function proxyWarning(input) {
